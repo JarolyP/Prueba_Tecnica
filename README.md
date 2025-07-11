@@ -1,5 +1,3 @@
-
-
 # Prueba Técnica Backend
 
 Este proyecto es una prueba técnica para la implementación de un backend con las siguientes características:
@@ -14,7 +12,6 @@ Este proyecto es una prueba técnica para la implementación de un backend con l
 * Documentación clara para despliegue, pruebas y mantenimiento.
 
 
-
 ## Tecnologías utilizadas
 
 * Node.js
@@ -22,31 +19,42 @@ Este proyecto es una prueba técnica para la implementación de un backend con l
 * PostgreSQL
 * GraphQL
 * Docker & Docker Compose
-  
+* Postman
+
 
 ## Requisitos
 
-* [Docker](https://www.docker.com/) y [Docker Compose](https://docs.docker.com/compose/) instalados.
-* [Git](https://git-scm.com/) instalado.
-* Opcionalmente, [Node.js](https://nodejs.org/) y npm, si desea ejecutar el backend fuera de Docker.
+Antes de comenzar, asegúrese de tener instalado en su máquina:
+
+* [Docker Desktop](https://www.docker.com/products/docker-desktop) (que incluye Docker y Docker Compose).
+* [Git](https://git-scm.com/).
 
 
 
 ## Instalación
 
-Clonar el repositorio:
+1️⃣ **Abrir Docker**
+Abra **Docker Desktop** y espere unos segundos hasta que Docker esté listo.
+Puede verificar que Docker está corriendo ejecutando en la terminal:
+
+```bash
+docker info
+```
+
+Si el comando devuelve información del sistema Docker, significa que está listo.
+
+2️⃣ **Clonar el repositorio**
 
 ```bash
 git clone <URL_REPOSITORIO_PRIVADO>
 cd Prueba_Tecnica
 ```
 
-
+---
 
 ## Ejecución del entorno con Docker
 
-
-Construir y levantar los servicios:
+Con Docker Desktop abierto y funcionando, ejecute:
 
 ```bash
 docker-compose up --build
@@ -61,40 +69,14 @@ Este comando:
   * Backend Node.js en el puerto `3000`.
 * Aplica automáticamente las migraciones y carga los datos de ejemplo.
 
-Verificar que los servicios están en ejecución:
+Verifique que los servicios están en ejecución con:
 
 ```bash
 docker ps
 ```
 
 
-
-## Ejecución fuera de Docker (opcional)
-
-Si prefiere correr el backend en su máquina local, también es posible.
-
-### Requisitos
-
-* Tener PostgreSQL en ejecución con la base `prueba_tecnica` creada.
-* Tener configuradas las variables de entorno para conexión a la base de datos.
-
-### Instalación de dependencias
-
-```bash
-npm install
-```
-
-### Ejecutar servidor
-
-```bash
-npm run dev
-```
-
-El backend quedará disponible en `http://localhost:3000`.
-
-
-
-## Probar la aplicación
+## Probar la aplicación 
 
 ### API REST
 
@@ -181,47 +163,6 @@ mutation {
 ```
 
 
-
-## Comandos rápidos
-
-### Instalar dependencias 
-
-```bash
-npm install
-```
-
-### Levantar entorno completo con Docker
-
-```bash
-docker-compose up --build
-```
-
-### Ver estado de los contenedores
-
-```bash
-docker ps
-```
-
-### Detener los contenedores
-
-```bash
-docker-compose down
-```
-
-### Reiniciar los contenedores
-
-```bash
-docker-compose restart
-```
-
-### Ejecutar backend fuera de Docker
-
-```bash
-npm run dev
-```
-
-
-
 ## Estándares de commits
 
 * `feat:` nuevas funcionalidades.
@@ -240,6 +181,7 @@ npm run dev
 
 * **¿Qué autenticación utiliza la API?**
   Ninguna. La API no implementa autenticación en esta prueba.
+
 
 
 **Autor:** Jaroly Omar Polanco
