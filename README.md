@@ -163,13 +163,6 @@ mutation {
 ```
 
 
-## Estándares de commits
-
-* `feat:` nuevas funcionalidades.
-* `fix:` correcciones de errores.
-* `chore:` tareas de mantenimiento.
-
-
 
 ## Preguntas frecuentes
 
