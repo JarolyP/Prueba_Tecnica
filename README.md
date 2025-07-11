@@ -1,200 +1,200 @@
-Claro, bro, aquí te dejo todo el contenido del README listo para pegar directo en la edición del README en GitHub. Solo copias todo y pegas, sin código extra ni nada raro:
-
 ---
 
-# 📦 Prueba Técnica Backend
+# Prueba Técnica Backend
 
-Proyecto backend para prueba técnica que incluye:
+Este proyecto es una prueba técnica para la implementación de un backend con las siguientes características:
 
-* API REST CRUD para productos con Node.js, Express y PostgreSQL.
+* API REST con operaciones CRUD para productos, desarrollada en Node.js y Express.
 * Endpoint GraphQL con consultas y mutaciones para productos.
-* Funciones JavaScript para validación y manipulación de datos.
+* Validaciones y manipulación de datos con JavaScript.
 * Consultas SQL avanzadas.
-* Contenedores Docker para backend y base de datos.
-* Documentación completa para levantar y probar el entorno.
+* Orquestación de servicios con Docker y Docker Compose.
+* Base de datos PostgreSQL.
+* Documentación para despliegue y pruebas.
 
 ---
 
-## 🚀 Requisitos previos
+## Tecnologías utilizadas
 
-* Tener **Docker** y **Docker Compose** instalados y funcionando.
-* Tener **Git** instalado.
-
-Puedes verificar que Docker está corriendo con:
-
-```
-docker info
-```
+* Node.js
+* Express
+* PostgreSQL
+* GraphQL
+* Docker & Docker Compose
 
 ---
 
-## 📂 Clonar el repositorio
+## Requisitos
 
-```
-git clone <URL_REPOSITORIO_PRIVADO>  
+* Docker y Docker Compose instalados y en funcionamiento.
+* Git instalado.
+
+Opcionalmente, para ejecutar el backend sin Docker:
+
+* Node.js y npm instalados.
+
+---
+
+## Instalación
+
+Clonar el repositorio:
+
+```bash
+git clone <URL_REPOSITORIO_PRIVADO>
 cd Prueba_Tecnica
 ```
 
+Si desea ejecutar el backend sin Docker, instale las dependencias:
+
+```bash
+npm install
+```
+
 ---
 
-## 🐳 Levantar el entorno con Docker
+## Ejecución del entorno con Docker
 
-```
+Levantar los servicios:
+
+```bash
 docker-compose up --build
 ```
 
-Esto levantará dos servicios:
+Servicios expuestos:
 
-* 🐘 PostgreSQL en el puerto `5432`
-* 🟢 Backend Node.js en el puerto `3000`
+* PostgreSQL en el puerto `5432`.
+* Backend en el puerto `3000`.
 
-Puedes verificar que los servicios están corriendo con:
+Verificar servicios en ejecución:
 
-```
+```bash
 docker ps
 ```
 
 ---
 
-## 🗄️ Ejecutar migraciones y datos de prueba
+## Migraciones y datos de prueba
 
-Con el contenedor de la base de datos corriendo, copia el archivo de migraciones al contenedor:
+Con los contenedores en ejecución:
 
-```
+1. Copiar el archivo de migraciones al contenedor de la base de datos:
+
+```bash
 docker cp ./sql/migrations.sql prueba_tecnica-db-1:/migrations.sql
 ```
 
-Luego ejecuta las migraciones:
+2. Ejecutar las migraciones:
 
-```
+```bash
 docker exec -it prueba_tecnica-db-1 psql -U postgres -d prueba_tecnica -f /migrations.sql
 ```
 
-✅ Nota: `prueba_tecnica-db-1` es el nombre por defecto del contenedor de la base de datos. Puedes verificarlo con:
+El nombre del contenedor (`prueba_tecnica-db-1`) puede confirmarse ejecutando:
 
-```
+```bash
 docker ps
 ```
 
 ---
 
-## 🔗 Probar API REST
+## API REST
 
-Puedes probar estos endpoints usando Postman, curl o tu navegador:
+### Endpoints
 
-* **Listar productos:**
-  `GET http://localhost:3000/api/productos`
+* Listar productos:
+  `GET /api/productos`
 
-* **Obtener producto por ID:**
-  `GET http://localhost:3000/api/productos/:id`
+* Obtener producto por ID:
+  `GET /api/productos/{id}`
 
-  ⚠️ Nota: En los endpoints donde dice `:id`, debes reemplazarlo por un número real de ID del producto.
-  Ejemplo correcto:
+* Crear producto:
+  `POST /api/productos`
+  Body:
 
-  ```
-  GET http://localhost:3000/api/productos/2
-  ```
+```json
+{
+  "nombre": "Producto prueba",
+  "descripcion": "Descripción",
+  "precio": 100.0,
+  "stock": 10,
+  "categoria_id": 1
+}
+```
 
-  Ejemplo incorrecto (produce error):
+* Actualizar producto:
+  `PUT /api/productos/{id}`
 
-  ```
-  GET http://localhost:3000/api/productos/:2
-  ```
+* Eliminar producto:
+  `DELETE /api/productos/{id}`
 
-  Si envías `:2` u otro texto, la base de datos devolverá un error como:
+Nota: Reemplace `{id}` por el identificador numérico correspondiente. Un error común es enviar `:id` como texto, lo que genera:
 
-  ```
-  {
-      "error": "invalid input syntax for type integer: \":2\""
-  }
-  ```
-
-  Por eso siempre usa el número del producto directamente en la URL.
-
-* **Crear producto:**
-  `POST http://localhost:3000/api/productos`
-  con un JSON body como:
-
-  ```
-  {
-    "nombre": "Producto prueba",
-    "descripcion": "Descripción de prueba",
-    "precio": 100.0,
-    "stock": 10,
-    "categoria_id": 1
-  }
-  ```
-
-* **Actualizar producto:**
-  `PUT http://localhost:3000/api/productos/:id`
-  con un JSON body igual al de creación.
-
-* **Eliminar producto:**
-  `DELETE http://localhost:3000/api/productos/:id`
+```json
+{
+  "error": "invalid input syntax for type integer: \":2\""
+}
+```
 
 ---
 
-## 🔷 Probar API GraphQL
+## API GraphQL
 
-Abre en tu navegador o en Postman:
-
-```
-http://localhost:3000/graphql
-```
-
-En Postman, envía una petición `POST` con un JSON como este:
+Endpoint:
+`http://localhost:3000/graphql`
 
 ### Ejemplo de consulta:
 
-```
+```graphql
 {
-  "query": "{ getProductos { id nombre precio stock } }"
+  getProductos {
+    id
+    nombre
+    precio
+    stock
+  }
 }
 ```
 
 ### Ejemplo de mutación:
 
-```
-{
-  "query": "mutation { createProducto(nombre: \"Nuevo Producto\", descripcion: \"Descripción\", precio: 100.0, stock: 10, categoria_id: 1) { id nombre } }"
+```graphql
+mutation {
+  createProducto(
+    nombre: "Nuevo Producto",
+    descripcion: "Descripción",
+    precio: 100.0,
+    stock: 10,
+    categoria_id: 1
+  ) {
+    id
+    nombre
+  }
 }
 ```
 
 ---
 
-## 📝 Convenciones de commits
+## Estandares de commits
 
-* `feat:` para nuevas funcionalidades
-* `fix:` para corrección de errores
-* `chore:` para tareas de mantenimiento
-
----
-
-## 🗒️ Comentarios traducidos (Ejercicio 5)
-
-```
-/*
-  // Esta función calcula el precio total incluyendo impuestos.  
-  // Parámetros: precio base y porcentaje de IVA.  
-  // Retorna el precio final.  
-*/
-```
+* `feat:` nuevas funcionalidades.
+* `fix:` correcciones de errores.
+* `chore:` tareas de mantenimiento.
 
 ---
 
-## ❓ Preguntas técnicas (Ejercicio 5)
+## Preguntas frecuentes
 
-✅ ¿Qué endpoint se usa para listar recursos?
-`GET /api/productos`
+* **¿Qué endpoint se usa para listar productos?**
+  `GET /api/productos`
 
-✅ ¿Qué status code se espera al crear un recurso?
-`201 Created`
+* **¿Qué status code se espera al crear un producto?**
+  `201 Created`
 
-✅ ¿Qué tipo de autenticación utiliza la API?
-La API no implementa autenticación en esta prueba.
+* **¿Qué autenticación utiliza la API?**
+  Ninguna. La API no implementa autenticación en esta prueba.
 
 ---
 
-💻👍
+**Autor:** Jaroly Omar Polanco
 
 ---
