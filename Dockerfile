@@ -1,26 +1,23 @@
-# Usar imagen oficial de Node.js 18
+# Use official Node.js 18 image
 FROM node:18
 
-# Crear directorio de la aplicación
+# Set working directory inside the container
 WORKDIR /usr/src/app
 
-# Copiar package.json y package-lock.json
+# Copy package.json and package-lock.json to install dependencies
 COPY package.json ./
 
-# Instalar dependencias de la aplicación
+# Install app dependencies
 RUN npm install
 
-# Copiar el código fuente
+# Copy all source code to the working directory
 COPY . .
 
-# Exponer el puerto
+# Expose port 3000 for the backend server
 EXPOSE 3000
 
-# Iniciar la aplicación
+# Start the Node.js application
 CMD ["npm", "start"]
 
-# Explicación:
-# Este Dockerfile configura un contenedor para la aplicación backend Node.js.
-# Usa la imagen oficial de Node.js 18, copia los archivos necesarios, instala dependencias,
-# copia el código fuente, expone el puerto 3000 y define el comando para iniciar la app.
-# Esto cumple con el requisito de tener un Dockerfile funcional para el backend.
+
+

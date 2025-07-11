@@ -1,21 +1,21 @@
-// Función para validar un string JSON y agregar processed: true
+// Function to validate a JSON string and add processed: true
 function validateAndProcessJSON(jsonString) {
   try {
     const obj = JSON.parse(jsonString);
     return { ...obj, processed: true };
   } catch (error) {
-    throw new Error('Cadena JSON inválida');
+    throw new Error("Invalid JSON string");
   }
 }
 
-// Función para filtrar productos con stock > 0 y ordenar por precio descendente
+// Function to filter products with stock > 0 and sort them by price descending
 function filterAndSortProducts(products) {
   return products
-    .filter(product => product.stock > 0)
+    .filter((product) => product.stock > 0)
     .sort((a, b) => b.precio - a.precio);
 }
 
-// Función para simular una llamada HTTP asíncrona que devuelve un producto tras 2 segundos
+// Function to simulate an asynchronous HTTP call that returns a product after 2 seconds
 function simulateAsyncProductCall(product) {
   return new Promise((resolve) => {
     setTimeout(() => {
