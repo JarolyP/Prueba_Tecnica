@@ -1,4 +1,4 @@
----
+
 
 # Prueba Técnica Backend
 
@@ -10,9 +10,10 @@ Este proyecto es una prueba técnica para la implementación de un backend con l
 * Consultas SQL avanzadas.
 * Orquestación de servicios con Docker y Docker Compose.
 * Base de datos PostgreSQL.
-* Documentación para despliegue y pruebas.
+* Migraciones y datos de ejemplo aplicados automáticamente al levantar el entorno.
+* Documentación clara para despliegue, pruebas y mantenimiento.
 
----
+
 
 ## Tecnologías utilizadas
 
@@ -21,19 +22,15 @@ Este proyecto es una prueba técnica para la implementación de un backend con l
 * PostgreSQL
 * GraphQL
 * Docker & Docker Compose
-
----
+  
 
 ## Requisitos
 
-* Docker y Docker Compose instalados y en funcionamiento.
-* Git instalado.
+* [Docker](https://www.docker.com/) y [Docker Compose](https://docs.docker.com/compose/) instalados.
+* [Git](https://git-scm.com/) instalado.
+* Opcionalmente, [Node.js](https://nodejs.org/) y npm, si desea ejecutar el backend fuera de Docker.
 
-Opcionalmente, para ejecutar el backend sin Docker:
 
-* Node.js y npm instalados.
-
----
 
 ## Instalación
 
@@ -44,105 +41,116 @@ git clone <URL_REPOSITORIO_PRIVADO>
 cd Prueba_Tecnica
 ```
 
-Si desea ejecutar el backend sin Docker, instale las dependencias:
 
-```bash
-npm install
-```
-
----
 
 ## Ejecución del entorno con Docker
 
-Levantar los servicios:
+
+Construir y levantar los servicios:
 
 ```bash
 docker-compose up --build
 ```
 
-Servicios expuestos:
+Este comando:
 
-* PostgreSQL en el puerto `5432`.
-* Backend en el puerto `3000`.
+* Construye las imágenes necesarias.
+* Arranca los servicios:
 
-Verificar servicios en ejecución:
+  * PostgreSQL en el puerto `5432`.
+  * Backend Node.js en el puerto `3000`.
+* Aplica automáticamente las migraciones y carga los datos de ejemplo.
 
-```bash
-docker ps
-```
-
----
-
-## Migraciones y datos de prueba
-
-Con los contenedores en ejecución:
-
-1. Copiar el archivo de migraciones al contenedor de la base de datos:
-
-```bash
-docker cp ./sql/migrations.sql prueba_tecnica-db-1:/migrations.sql
-```
-
-2. Ejecutar las migraciones:
-
-```bash
-docker exec -it prueba_tecnica-db-1 psql -U postgres -d prueba_tecnica -f /migrations.sql
-```
-
-El nombre del contenedor (`prueba_tecnica-db-1`) puede confirmarse ejecutando:
+Verificar que los servicios están en ejecución:
 
 ```bash
 docker ps
 ```
 
----
 
-## API REST
 
-### Endpoints
+## Ejecución fuera de Docker (opcional)
+
+Si prefiere correr el backend en su máquina local, también es posible.
+
+### Requisitos
+
+* Tener PostgreSQL en ejecución con la base `prueba_tecnica` creada.
+* Tener configuradas las variables de entorno para conexión a la base de datos.
+
+### Instalación de dependencias
+
+```bash
+npm install
+```
+
+### Ejecutar servidor
+
+```bash
+npm run dev
+```
+
+El backend quedará disponible en `http://localhost:3000`.
+
+
+
+## Probar la aplicación
+
+### API REST
+
+Los siguientes endpoints están disponibles en `http://localhost:3000/api/productos`:
 
 * Listar productos:
-  `GET /api/productos`
+
+  ```
+  GET /api/productos
+  ```
 
 * Obtener producto por ID:
-  `GET /api/productos/{id}`
+
+  ```
+  GET /api/productos/{id}
+  ```
 
 * Crear producto:
-  `POST /api/productos`
+
+  ```
+  POST /api/productos
+  ```
+
   Body:
 
-```json
-{
-  "nombre": "Producto prueba",
-  "descripcion": "Descripción",
-  "precio": 100.0,
-  "stock": 10,
-  "categoria_id": 1
-}
-```
+  ```json
+  {
+    "nombre": "Producto prueba",
+    "descripcion": "Descripción",
+    "precio": 100.0,
+    "stock": 10,
+    "categoria_id": 1
+  }
+  ```
 
 * Actualizar producto:
-  `PUT /api/productos/{id}`
+
+  ```
+  PUT /api/productos/{id}
+  ```
 
 * Eliminar producto:
-  `DELETE /api/productos/{id}`
 
-Nota: Reemplace `{id}` por el identificador numérico correspondiente. Un error común es enviar `:id` como texto, lo que genera:
+  ```
+  DELETE /api/productos/{id}
+  ```
 
-```json
-{
-  "error": "invalid input syntax for type integer: \":2\""
-}
-```
+Nota: Reemplace `{id}` por un número válido.
 
----
 
-## API GraphQL
 
-Endpoint:
-`http://localhost:3000/graphql`
+### API GraphQL
 
-### Ejemplo de consulta:
+El endpoint GraphQL está disponible en `http://localhost:3000/graphql`.
+
+Ejemplo de consulta:
 
 ```graphql
 {
@@ -155,7 +163,7 @@ Endpoint:
 }
 ```
 
-### Ejemplo de mutación:
+Ejemplo de mutación:
 
 ```graphql
 mutation {
@@ -172,15 +180,55 @@ mutation {
 }
 ```
 
----
 
-## Estandares de commits
+
+## Comandos rápidos
+
+### Instalar dependencias 
+
+```bash
+npm install
+```
+
+### Levantar entorno completo con Docker
+
+```bash
+docker-compose up --build
+```
+
+### Ver estado de los contenedores
+
+```bash
+docker ps
+```
+
+### Detener los contenedores
+
+```bash
+docker-compose down
+```
+
+### Reiniciar los contenedores
+
+```bash
+docker-compose restart
+```
+
+### Ejecutar backend fuera de Docker
+
+```bash
+npm run dev
+```
+
+
+
+## Estándares de commits
 
 * `feat:` nuevas funcionalidades.
 * `fix:` correcciones de errores.
 * `chore:` tareas de mantenimiento.
 
----
+
 
 ## Preguntas frecuentes
 
@@ -193,8 +241,7 @@ mutation {
 * **¿Qué autenticación utiliza la API?**
   Ninguna. La API no implementa autenticación en esta prueba.
 
----
 
 **Autor:** Jaroly Omar Polanco
 
----
+
